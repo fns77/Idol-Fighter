@@ -5,7 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class CharSelection : MonoBehaviour
 {
-
+    public GameObject MainMenu;
+    public GameObject CharacterSelectionPanel;
     public GameObject CharacterSelection;
     public GameObject LevelSelection;
     public GameObject ContinueButton;
@@ -15,6 +16,10 @@ public class CharSelection : MonoBehaviour
     private bool leftButtonDown;
     private UICharSelectionPortrait[] portraits;
     private UILevelSelection[] levels;
+
+    [Header("ButtonMusic")]
+    public GameObject musicOn;
+    public GameObject sFXOn;
 
     void OnEnable()
     {
@@ -34,6 +39,8 @@ public class CharSelection : MonoBehaviour
         portraits = GetComponentsInChildren<UICharSelectionPortrait>();
         levels = GetComponentsInChildren<UILevelSelection>();
 
+        MainMenu.SetActive(true);
+        CharacterSelectionPanel.SetActive(false);
         CharacterSelection.SetActive(true);
         LevelSelection.SetActive(false);
 
@@ -82,10 +89,17 @@ public class CharSelection : MonoBehaviour
                 UI.UI_fader.Fade(UIFader.FADE.FadeOut, .3f, 0f);
                 Invoke("loadLevel", .5f);
             }
+            MainMenu.SetActive(true);
+            CharacterSelectionPanel.SetActive(false);
             CharacterSelection.SetActive(true);
             LevelSelection.SetActive(false);
         }
 
+    }
+
+    public void SelectionBtn()
+    {
+        GlobalAudioPlayer.PlaySFX(ContinueButtonSFXOnClick);
     }
 
     void setContinueButtonVisible()
@@ -183,5 +197,37 @@ public class CharSelection : MonoBehaviour
         {
             OnContinueButtonClick();
         }
+    }
+
+    public void ToogleMusic()
+    {
+        GlobalAudioPlayer.ToogleMusic();
+        if (musicOn.activeSelf)
+        {
+            musicOn.SetActive(false);
+        }
+        else
+        {
+            musicOn.SetActive(true);
+        }
+        
+    }
+
+    public void ToogleSFX()
+    {
+        GlobalAudioPlayer.ToogleSFX();
+        if (sFXOn.activeSelf)
+        {
+            sFXOn.SetActive(false);
+        }
+        else
+        {
+            sFXOn.SetActive(true);
+        }
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 }

@@ -19,4 +19,16 @@ public static class GlobalAudioPlayer {
 	public static void PlayMusic(string musicName){
 		if(audioPlayer != null) audioPlayer.playMusic(musicName);
 	}
+
+	public static void ToogleMusic()
+	{
+		if(audioPlayer != null) audioPlayer.ToogleMusic();
+
+    }
+
+    public static void ToogleSFX()
+    {
+        if (audioPlayer != null) audioPlayer.ToogleSFX();
+
+    }
 }

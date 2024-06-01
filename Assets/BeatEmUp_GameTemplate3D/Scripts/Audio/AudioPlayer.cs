@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 
 namespace BeatEmUpTemplate {
 	
@@ -10,20 +11,51 @@ namespace BeatEmUpTemplate {
 		private float musicVolume = 1f;
 		private float sfxVolume = 1f;
 
-		void Awake(){
+		private bool _musicActive = true;
+        private bool _sFXActive = true;
+
+		GameSettings settings;
+
+        void Awake(){
 			GlobalAudioPlayer.audioPlayer = this;
 			source = GetComponent<AudioSource>();
 
 			//set settings
-			GameSettings settings = Resources.Load("GameSettings", typeof(GameSettings)) as GameSettings;
+			settings = Resources.Load("GameSettings", typeof(GameSettings)) as GameSettings;
 			if(settings != null){
 				musicVolume = settings.MusicVolume;
 				sfxVolume = settings.SFXVolume;
 			}
-		}
 
-		//play a sfx
-		public void playSFX(string name){
+
+        }
+
+        private void Update()
+        {
+            switch (_musicActive)
+            {
+                case false:
+                    musicVolume = 0;
+                    break;
+                case true:
+                    musicVolume = settings.MusicVolume;
+                    break;
+            }
+
+
+            switch (_sFXActive)
+            {
+                case false:
+                    sfxVolume = 0;
+                    break;
+                case true:
+                    sfxVolume = settings.SFXVolume;
+                    break;
+            }
+        }
+
+        //play a sfx
+        public void playSFX(string name){
 			bool SFXFound = false;
 			foreach(AudioItem s in AudioList){
 				if(s.name == name){
@@ -103,5 +135,15 @@ namespace BeatEmUpTemplate {
 				}
 			}
 		}
+
+		public void ToogleMusic()
+		{
+			_musicActive = !_musicActive;
+		}
+
+		public void ToogleSFX()
+		{
+            _sFXActive = !_sFXActive;
+        }
 	}
 }
