@@ -62,6 +62,8 @@ public class CharSelection : MonoBehaviour
         CharacterSelection.SetActive(true);
         LevelSelection.SetActive(false);
         setContinueButtonInVisible();
+
+        AdsManager.Instance.HideBanners();
     }
 
     //continue
@@ -72,6 +74,7 @@ public class CharSelection : MonoBehaviour
         {
             CharacterSelection.SetActive(false);
             LevelSelection.SetActive(true);
+            AdsManager.Instance.ShowBanners();
             setContinueButtonInVisible();
 
             if (levels.Length == 0) levels = GetComponentsInChildren<UILevelSelection>();
@@ -89,13 +92,11 @@ public class CharSelection : MonoBehaviour
                 UI.UI_fader.Fade(UIFader.FADE.FadeOut, .3f, 0f);
                 Invoke("loadLevel", .5f);
             }
-            MainMenu.SetActive(true);
-            CharacterSelectionPanel.SetActive(false);
-            CharacterSelection.SetActive(true);
-            LevelSelection.SetActive(false);
+
         }
 
     }
+
 
     public void SelectionBtn()
     {
@@ -115,6 +116,13 @@ public class CharSelection : MonoBehaviour
     //load level
     void loadLevel()
     {
+
+        MainMenu.SetActive(true);
+        CharacterSelectionPanel.SetActive(false);
+        CharacterSelection.SetActive(true);
+        LevelSelection.SetActive(false);
+        AdsManager.Instance.HideBanners();
+
         if (!string.IsNullOrEmpty(loadLevelOnExit))
         {
             SceneManager.LoadScene(loadLevelOnExit);

@@ -60,7 +60,8 @@ public class PlayerCombat : MonoBehaviour, IDamagable<DamageObject> {
 	private int hitKnockDownCount = 0; //the number of times the player is hit in a row
 	private int hitKnockDownResetTime = 2; //the time before the hitknockdown counter resets
 	private float LastHitTime = 0; // the last time when we were hit 
-	private bool isDead = false; //true if this player has died
+	[SerializeField]
+	public bool isDead = false; //true if this player has died
 	private int EnemyLayer; // the enemy layer
 	private int DestroyableObjectLayer; // the destroyable object layer
 	private int EnvironmentLayer; //the environment layer
@@ -177,8 +178,11 @@ public class PlayerCombat : MonoBehaviour, IDamagable<DamageObject> {
 		
 	//movement input event
 	void MovementInputEvent(Vector2 inputVector){
-		int dir = Mathf.RoundToInt(Mathf.Sign((float)-inputVector.x));
-		if(Mathf.Abs(inputVector.x)>0) currentDirection = (DIRECTION)dir;
+		if (!isDead)
+		{
+			int dir = Mathf.RoundToInt(Mathf.Sign((float)-inputVector.x));
+			if (Mathf.Abs(inputVector.x) > 0) currentDirection = (DIRECTION)dir;
+		}
 	}
 
 	#region Combat Input Events
@@ -738,7 +742,7 @@ public class PlayerCombat : MonoBehaviour, IDamagable<DamageObject> {
 	}
 
 	//the player has died
-	void Death(){
+	public void Death(){
 		if (!isDead){
 			isDead = true;
 			StopAllCoroutines();
@@ -751,6 +755,41 @@ public class PlayerCombat : MonoBehaviour, IDamagable<DamageObject> {
 			StartCoroutine(ReStartLevel());
 		}
 	}
+
+	public void Respawn()
+	{
+		if (isDead)
+		{
+			isDead = false;
+            StopAllCoroutines();
+            animator.StopAllCoroutines();
+            CancelInvoke();
+            SetVelocity(Vector3.zero);
+            //GlobalAudioPlayer.PlaySFXAtPosition(DeathVoiceSFX, transform.position + Vector3.up);
+            animator.SetAnimatorBool("Death", false);
+			animator.SetAnimatorTrigger("Idle");
+            StartCoroutine(AiMove());
+            HealthSystem hs = GetComponent<HealthSystem>();
+            hs.AddHealth(20);
+            StartCoroutine(GodMode());
+        }
+	}
+
+	IEnumerator AiMove()
+	{
+        yield return new WaitForSeconds(1f);
+        EnemyManager.PlayerHasRespawn();
+    }
+	IEnumerator GodMode()
+	{
+  
+        HealthSystem hs = GetComponent<HealthSystem>();
+        yield return new WaitForSeconds(0.2f);
+        hs.SendUpdateEvent();
+        hs.invulnerable = true;
+        yield return new WaitForSeconds(2f);
+		hs.invulnerable = false;
+    }
 
 	//restart this level
 	IEnumerator ReStartLevel(){

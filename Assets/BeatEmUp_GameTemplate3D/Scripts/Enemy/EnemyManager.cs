@@ -48,18 +48,39 @@ public static class EnemyManager {
 		}
 	}
 
-	//Returns a list of enemies that are currently active
-	public static void getActiveEnemies(){
+    //Enable all enemy AI's
+    public static void EnableAllEnemyAIs()
+    {
+        getActiveEnemies();
+        if (activeEnemies.Count > 0)
+        {
+            for (int i = 0; i < activeEnemies.Count; i++)
+            {
+                activeEnemies[i].GetComponent<EnemyAI>().enableAI = true;
+            }
+        }
+    }
+
+
+    //Returns a list of enemies that are currently active
+    public static void getActiveEnemies(){
 		activeEnemies.Clear();
 		foreach(GameObject enemy in enemyList){
 			if(enemy != null && enemy.activeSelf)activeEnemies.Add(enemy);
 		}
 	}
 
+	public static void PlayerHasRespawn()
+	{
+		EnableAllEnemyAIs();
+		Debug.Log("Respawn");
+	}
+
+
 	//Player has died
 	public static void PlayerHasDied(){
 		DisableAllEnemyAIs();
-		enemyList.Clear();
+		//enemyList.Clear();
 	}
 
 	//Returns the maximum number of enemies that can attack the player at once (Tools/GameSettings)

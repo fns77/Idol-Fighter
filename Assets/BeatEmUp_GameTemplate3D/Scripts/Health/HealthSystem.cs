@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 
 public class HealthSystem : MonoBehaviour {
 
@@ -8,8 +9,12 @@ public class HealthSystem : MonoBehaviour {
 	public delegate void OnHealthChange(float percentage, GameObject GO);
 	public static event OnHealthChange onHealthChange;
 
+
+	public PlayerCombat _playerCombat;
+
 	void Start(){
 		SendUpdateEvent();
+		_playerCombat = GetComponent<PlayerCombat>();
 	}
 
 	//substract health
@@ -19,9 +24,12 @@ public class HealthSystem : MonoBehaviour {
 			//reduce hp
 			CurrentHp = Mathf.Clamp(CurrentHp -= damage, 0, MaxHp);
 
-			//Health reaches 0
-			if (isDead()) gameObject.SendMessage("Death", SendMessageOptions.DontRequireReceiver);
-		}
+            //Health reaches 0
+            //if (isDead()) gameObject.SendMessage("Death", SendMessageOptions.DontRequireReceiver);
+            if (isDead() && _playerCombat != null)
+                _playerCombat.Death();
+            else if (isDead() && _playerCombat == null) gameObject.SendMessage("Death", SendMessageOptions.DontRequireReceiver);
+        }
 
 		//update Health Event
 		SendUpdateEvent();
@@ -34,7 +42,7 @@ public class HealthSystem : MonoBehaviour {
 	}
 		
 	//health update event
-	void SendUpdateEvent(){
+	public void SendUpdateEvent(){
 		float CurrentHealthPercentage = 1f/MaxHp * CurrentHp;
 		if(onHealthChange != null) onHealthChange(CurrentHealthPercentage, gameObject);
 	}
