@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
-using static UnityEditor.Timeline.TimelinePlaybackControls;
 using System.Drawing;
 
 public class GameOverScrn : MonoBehaviour {
@@ -70,23 +69,20 @@ public class GameOverScrn : MonoBehaviour {
 
     private void CompleteMethod(bool completed, string advertiser)
     {
-        if (Advertisements.Instance.debug)
-        {
-            Debug.Log("Closed rewarded from: " + advertiser + " -> Completed " + completed);
-            GleyMobileAds.ScreenWriter.Write("Closed rewarded from: " + advertiser + " -> Completed " + completed);
-			
-			RespawnPlayer();
-
 
             if (completed == true)
             {
-
+                RespawnPlayer();
             }
             else
             {
                 //targetObject.SetActive(true);
             }
-        }
+
+#if UNITY_EDITOR
+            RespawnPlayer();
+#endif
+        
     }
 
 	public void RespawnPlayer()

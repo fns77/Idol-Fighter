@@ -23,22 +23,23 @@ public class RewardedAdManager : MonoBehaviour
         }
     }
 
-    private void CompleteMethod(bool completed, string advertiser)
+    private void CompleteMethod(bool completed, string advertiser )
     {
-        if (Advertisements.Instance.debug)
-        {
-            Debug.Log("Closed rewarded from: " + advertiser + " -> Completed " + completed);
-            GleyMobileAds.ScreenWriter.Write("Closed rewarded from: " + advertiser + " -> Completed " + completed);
-            targetObject.SetActive(false);
+
             if (completed == true)
             {
-                
+                targetObject.SetActive(false);
             }
             else
             {
                 //targetObject.SetActive(true);
             }
-        }
+
+#if UNITY_EDITOR
+            targetObject.SetActive(false);
+#endif
+
+        
     }
 
 }
