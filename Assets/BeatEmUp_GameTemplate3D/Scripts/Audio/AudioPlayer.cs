@@ -16,6 +16,8 @@ namespace BeatEmUpTemplate {
 
 		GameSettings settings;
 
+		private GameObject musicSource;
+
         void Awake(){
 			GlobalAudioPlayer.audioPlayer = this;
 			source = GetComponent<AudioSource>();
@@ -36,9 +38,21 @@ namespace BeatEmUpTemplate {
             {
                 case false:
                     musicVolume = 0;
+                    if (musicSource != null)
+					{
+                        musicSource = GameObject.Find("Music");
+                        musicSource.GetComponent<AudioSource>().volume = musicVolume;
+                    }
+
                     break;
                 case true:
                     musicVolume = settings.MusicVolume;
+					if (musicSource != null)
+					{
+						musicSource = GameObject.Find("Music");
+						musicSource.GetComponent<AudioSource>().volume = musicVolume;
+					}
+                    
                     break;
             }
 
@@ -121,9 +135,9 @@ namespace BeatEmUpTemplate {
 		public void playMusic(string name){
 
 			//create a separate gameobject designated for playing music
-			GameObject music = new GameObject();
-			music.name = "Music";
-			AudioSource AS = music.AddComponent<AudioSource>();
+			musicSource = new GameObject();
+            musicSource.name = "Music";
+			AudioSource AS = musicSource.AddComponent<AudioSource>();
 
 			//get music track from audiolist
 			foreach(AudioItem s in AudioList){

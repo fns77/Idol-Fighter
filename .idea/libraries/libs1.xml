@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="libs1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/Library/Bee/Android/Prj/Mono2x/Gradle/unityLibrary/build/.transforms/04ac5da8f58f43bfd859a8c20514224f/transformed/out/jars/libs/unity-classes.jar!/" />
+      <root url="jar://$PROJECT_DIR$/Library/Bee/Android/Prj/Mono2x/Gradle/unityLibrary/build/.transforms/04ac5da8f58f43bfd859a8c20514224f/transformed/out/jars/libs/vntis.admob.vn.4.1.free.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

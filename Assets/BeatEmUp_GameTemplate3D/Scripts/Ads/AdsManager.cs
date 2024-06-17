@@ -1,7 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using GleyMobileAds;
+using Gley.MobileAds;
+
 
 public class AdsManager : MonoBehaviour
 {
@@ -12,27 +13,33 @@ public class AdsManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+            API.Initialize();
             //DontDestroyOnLoad(gameObject);
         }
         else
         {
             Destroy(gameObject);
         }
+
     }
 
     public void ShowBanners()
     {
-        Advertisements.Instance.ShowBanner(BannerPosition.BOTTOM, BannerType.SmartBanner);
+
+        API.ShowBanner(BannerPosition.Bottom, BannerType.Smart);
+        //Advertisements.Instance.ShowBanner(BannerPosition.BOTTOM, BannerType.SmartBanner);
     }
 
     public void HideBanners()
     {
-        Advertisements.Instance.HideBanner();
+        API.HideBanner();
+        //Advertisements.Instance.HideBanner();
     }
 
     public void interstitialmuncul()
     {
-        Advertisements.Instance.ShowInterstitial();
+        API.ShowInterstitial();
+        //Advertisements.Instance.ShowInterstitial();
 
     }
 }

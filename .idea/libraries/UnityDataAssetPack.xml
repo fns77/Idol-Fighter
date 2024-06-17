@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="UnityDataAssetPack">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/Library/Bee/Android/Prj/IL2CPP/Gradle/launcher/build/intermediates/asset_pack_bundle/release/UnityDataAssetPack/UnityDataAssetPack.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

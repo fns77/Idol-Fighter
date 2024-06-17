@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System.Drawing;
+using Gley.MobileAds;
 
 public class GameOverScrn : MonoBehaviour {
 
@@ -16,22 +17,30 @@ public class GameOverScrn : MonoBehaviour {
     private void OnEnable() {
 		InputManager.onCombatInputEvent += InputEvent;
 
-
-
-		// Check if a rewarded ad is available
-		if (Advertisements.Instance.IsRewardVideoAvailable())
-		{
-			ReviveBtn.interactable = true;
-            // Show the rewarded ad
-            //Advertisements.Instance.ShowRewardedVideo(CompleteMethod);
+        if (API.IsRewardedVideoAvailable())
+        {
+            ReviveBtn.interactable = true;
+            //API.ShowRewardedVideo(CompleteMethod);
         }
-		else
-		{
-			ReviveBtn.interactable = false;
-            //Debug.Log("Rewarded ad not available");
+        else
+        {
+            ReviveBtn.interactable = false;
         }
 
-	}
+        // Check if a rewarded ad is available
+        //if (Advertisements.Instance.IsRewardVideoAvailable())
+        //{
+        //	ReviveBtn.interactable = true;
+        //          // Show the rewarded ad
+        //          //Advertisements.Instance.ShowRewardedVideo(CompleteMethod);
+        //      }
+        //else
+        //{
+        //	ReviveBtn.interactable = false;
+        //          //Debug.Log("Rewarded ad not available");
+        //      }
+
+    }
 
 	
 
@@ -64,10 +73,10 @@ public class GameOverScrn : MonoBehaviour {
 
     public void ShowRewardedVideo()
     {
-        Advertisements.Instance.ShowRewardedVideo(CompleteMethod);
+        API.ShowRewardedVideo(CompleteMethod);
     }
 
-    private void CompleteMethod(bool completed, string advertiser)
+    private void CompleteMethod(bool completed)
     {
 
             if (completed == true)

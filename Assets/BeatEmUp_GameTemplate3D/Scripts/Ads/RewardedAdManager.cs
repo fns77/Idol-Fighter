@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
-using GleyMobileAds; // Pastikan untuk menggunakan namespace yang benar sesuai dengan dokumentasi plugin
+using Gley.MobileAds.Internal;
+using Gley.MobileAds;// Pastikan untuk menggunakan namespace yang benar sesuai dengan dokumentasi plugin
 
 public class RewardedAdManager : MonoBehaviour
 {
@@ -9,13 +10,9 @@ public class RewardedAdManager : MonoBehaviour
 
     public void OnWatchAdButtonClicked()
     {
-        //targetObject.SetActive(false);
-
-        // Check if a rewarded ad is available
-        if (Advertisements.Instance.IsRewardVideoAvailable())
+        if (API.IsRewardedVideoAvailable())
         {
-            // Show the rewarded ad
-            Advertisements.Instance.ShowRewardedVideo(CompleteMethod);
+            API.ShowRewardedVideo(CompleteMethod);
         }
         else
         {
@@ -23,7 +20,7 @@ public class RewardedAdManager : MonoBehaviour
         }
     }
 
-    private void CompleteMethod(bool completed, string advertiser )
+    private void CompleteMethod(bool completed)
     {
 
             if (completed == true)
