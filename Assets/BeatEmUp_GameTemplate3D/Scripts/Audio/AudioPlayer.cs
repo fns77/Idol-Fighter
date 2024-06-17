@@ -30,6 +30,8 @@ namespace BeatEmUpTemplate {
 			}
 
 
+            _musicActive = PlayerPrefs.GetInt("Music", 1) == 1;
+            _sFXActive = PlayerPrefs.GetInt("SFX", 1) == 1;
         }
 
         private void Update()
@@ -153,11 +155,15 @@ namespace BeatEmUpTemplate {
 		public void ToogleMusic()
 		{
 			_musicActive = !_musicActive;
+
+			PlayerPrefs.SetInt("Music", _musicActive ? 1 : 0);
 		}
 
 		public void ToogleSFX()
 		{
             _sFXActive = !_sFXActive;
+
+            PlayerPrefs.SetInt("SFX", _musicActive ? 1 : 0);
         }
 	}
 }
